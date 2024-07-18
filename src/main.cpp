@@ -2,26 +2,21 @@
 #include "esp_sleep.h"
 #include "esp_system.h"
 
-
-
-
 const char* ntpServer = "pool.ntp.org";
 const uint64_t chipId = ESP.getEfuseMac();
 uint8_t retries = 0;
-IPAddress IP;
-
-
 
 
 WifiConfiguration Wifi(SSID, PASSWORD);
 AgriArenaClient Client;
 Sensors Sensor(DHT_PIN, DHT_TYPE);
 
+IPAddress IP = Wifi.getIP();
 
 void setup() {
     Serial.begin(115200);
     // configureLED(LED);
-    pinMode(SWITCH, INPUT);
+    // pinMode(SWITCH, INPUT);
     configTime(0, 0, ntpServer);
 
     Serial.println("Starting...");
@@ -49,9 +44,12 @@ void loop() {
     //     IP = Wifi.reconnect(R);
     // }
 
-    Serial.println("Endpoint Length = " + ENDPOINT.length());
+    Serial.print("Length = ");
+    Serial.println(ENDPOINT.length());
+
     if(ENDPOINT == "INVALID_URL") {
-        Serial.println("Endpoint = " + ENDPOINT);
+        Serial.print("Endpoint = ");
+        Serial.println(ENDPOINT);
     }
     
     if (!Wifi.isAlive(R)) {

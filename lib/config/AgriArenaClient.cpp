@@ -2,15 +2,15 @@
 #include "AgriArenaClient.h"
 #include "time.h"
 
-unsigned long getTime() {
-  time_t now;
+String getTime() {
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo)) {
-    Serial.println("Failed to obtain time");
-    return(0);
+    return "Failed to obtain time";
   }
-  time(&now);
-  return now;
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+  char buffer[64];
+  strftime(buffer, sizeof(buffer), "%A, %B %d %Y %H:%M:%S", &timeinfo);
+  return String(buffer);
 }
 
 
